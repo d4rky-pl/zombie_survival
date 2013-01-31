@@ -11,10 +11,6 @@ class SmartPlayer
     put_in_the_middle
   end
 
-  def alive?
-    hp > 0
-  end
-
   def char
     "#"
   end
