@@ -3,8 +3,10 @@ require "gaminator"
 require "./objects/living_object.rb"
 require "./objects/zombie.rb"
 require "./objects/player.rb"
+require "./objects/particle.rb"
 
 class ZombieSurvival
+
 	def initialize(width, height)
     @time = 0
     @zombies = []
@@ -17,6 +19,8 @@ class ZombieSurvival
 		@kills = 0
     @player = SmartPlayer.new(self)
     @tick_count = 0
+    @particles = []
+    @particles_tick_count = 0
 
 		initialize_player
 	end
@@ -31,6 +35,7 @@ class ZombieSurvival
         ?d => :move_right,
         ?w => :move_up,
         ?s => :move_down,
+        ?x => :try_shooting,
         ?q => :exit,
     }
   end
@@ -54,11 +59,13 @@ class ZombieSurvival
 	def tick
     @tick_count += 1
     move_zombies
+    @particles_tick_count -= 1
+    @particles = [] if @particles_tick_count < 0
     exit unless @player.alive?
 	end
 
 	def objects
-		[@player] + @zombies
+		[@player] + @zombies + @particles
 	end
 
 	def sleep_time
@@ -94,7 +101,19 @@ class ZombieSurvival
     [x,y]
   end
 
+  def try_shooting
+    draw_shoot(@player.direction)
+  end
+
   private
+
+  def draw_shoot(direction)
+    x,y = @player.x, @player.y
+    particles_positions.each do |pos|
+      @particles << Particle.new(*pos)
+    end
+    @particles_tick_count = Particle::LIVE_TIME
+  end
 
   def move_zombies
     @zombies.each do |zombie|
@@ -102,6 +121,10 @@ class ZombieSurvival
         zombie.try_moving
       end
     end
+  end
+
+  def particles_positions
+    [[5,5],[10,10] ]
   end
 end
 

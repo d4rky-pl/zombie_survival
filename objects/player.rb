@@ -55,10 +55,6 @@ class SmartPlayer
     self.hp -= 10
   end
 
-  def shoot
-
-  end
-
   private
 
   def put_in_the_middle
@@ -67,7 +63,7 @@ class SmartPlayer
   end
 
   def try_making_move(x,y)
-    if x >= 0 && y >= 0 && x <= @game.width && y <= @game.height
+    if x >= 0 && y >= 0 && x < @game.width && y < @game.height
       new_x, new_y = @game.try_moving_player(x,y)
       self.x = new_x
       self.y = new_y
