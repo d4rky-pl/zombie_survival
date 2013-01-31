@@ -37,7 +37,7 @@ class ZombieSurvival
         ?d => :move_right,
         ?w => :move_up,
         ?s => :move_down,
-        ?x => :try_shooting,
+        ?k => :try_shooting,
         ?q => :exit,
     }
   end
