@@ -122,7 +122,7 @@ class ZombieSurvival
   def move_zombies
     @zombies.each do |zombie|
       if zombie.can_move?(@tick_count)
-        zombie.try_moving
+        zombie.try_moving(@player)
       end
     end
   end
