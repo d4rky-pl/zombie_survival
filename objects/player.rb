@@ -8,9 +8,6 @@ class SmartPlayer
     put_in_the_middle
   end
 
-
-  attr_accessor :hp, :x, :y
-
   def alive?
     hp > 0
   end
@@ -34,6 +31,20 @@ class SmartPlayer
   end
 
   def move(direction)
+    new_x, new_y = x, y
+    case direction
+      when :left
+        new_x -= 1
+      when :right
+        new_x += 1
+      when :up
+        new_y -= 1
+      when :down
+        new_y += 1
+      else
+        raise "Wrong direction"
+    end
+    try_making_move(new_x,new_y)
   end
 
   def hit
@@ -49,6 +60,14 @@ class SmartPlayer
   def put_in_the_middle
     self.x = @game.width/2
     self.y = @game.height/2
+  end
+
+  def try_making_move(x,y)
+    if x >= 0 && y >= 0 && x <= @game.width && y <= @game.height
+      new_x, new_y = @game.try_moving_player(x,y)
+      self.x = new_x
+      self.y = new_y
+    end
   end
 
 

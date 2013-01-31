@@ -1,5 +1,5 @@
 module LivingObject
-  def included(base)
+  def self.included(base)
     base.class_eval do
       attr_accessor :hp, :x, :y
     end

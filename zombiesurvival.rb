@@ -7,6 +7,8 @@ require "./objects/player.rb"
 class ZombieSurvival
 	def initialize(width, height)
     @zombies = []
+    # temp
+    @zombies << Zombie.new(self)
 		@ticks = 0
 		@width = width
 		@height = height
@@ -22,11 +24,33 @@ class ZombieSurvival
 	end
 
 	def input_map
-		{}
-	end
+    {
+        ?a => :move_left,
+        ?d => :move_right,
+        ?w => :move_up,
+        ?s => :move_down,
+        ?q => :exit,
+    }
+  end
+
+  def move_left
+    @player.move(:left)
+  end
+
+  def move_right
+    @player.move(:right)
+  end
+
+  def move_up
+    @player.move(:up)
+  end
+
+  def move_down
+    @player.move(:down)
+  end
 
 	def tick
-
+    move_zombies
     exit unless @player.alive?
 	end
 
@@ -35,7 +59,7 @@ class ZombieSurvival
 	end
 
 	def sleep_time
-		0.1
+		0
 	end
 
 	def textbox_content
@@ -60,6 +84,16 @@ class ZombieSurvival
 
   def height
     30
+  end
+
+  def try_moving_player(x,y)
+    [x,y]
+  end
+
+  private
+
+  def move_zombies
+    @zombies.each(&:move)
   end
 end
 
