@@ -22,11 +22,17 @@ class Zombie
     move_y = sign_y * 1 
 
     unless @last_move_x   
-      @x += move_x  
-      @last_move_x = true
+      new_x = @x + move_x
+      if @game.is_allowed?(new_x, @y)
+        @x = new_x
+        @last_move_x = true
+      end
     else
-      @y -= move_y
-      @last_move_x = false
+      new_y = @y - move_y
+      if @game.is_allowed?(@x, new_y)
+        @y = new_y
+        @last_move_x = false
+      end
     end
   end
 
@@ -37,6 +43,7 @@ class Zombie
   def color
     Curses::COLOR_GREEN
   end
+
 end
 
 class SmartZombie < Zombie

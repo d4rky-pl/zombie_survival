@@ -6,9 +6,9 @@ class SmartPlayer
 
   def initialize(game)
     @game = game
-    @hp = 6
+    @hp = 100
     @direction = :up
-    put_in_the_middle
+    set_start_position
   end
 
   def char
@@ -16,8 +16,8 @@ class SmartPlayer
   end
 
   def color
-    return Curses::COLOR_RED if hp <= 2
-    return Curses::COLOR_YELLOW if hp <= 4
+    return Curses::COLOR_RED if hp <= 30
+    return Curses::COLOR_YELLOW if hp <= 70
     Curses::COLOR_GREEN
   end
 
@@ -34,6 +34,7 @@ class SmartPlayer
   end
 
   def move(direction)
+    @direction = direction
     new_x, new_y = @x, @y
     case direction
     when :up
@@ -50,9 +51,9 @@ class SmartPlayer
 
   private
 
-  def put_in_the_middle
+  def set_start_position
     self.x = @game.width/2
-    self.y = @game.height/2
+    self.y = @game.height/2 +8
   end
 
   def try_making_move(new_x,new_y)

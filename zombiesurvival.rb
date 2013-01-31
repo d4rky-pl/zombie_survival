@@ -22,7 +22,7 @@ class ZombieSurvival
     @tick_count = 0
     @particles = []
     @particles_tick_count = 0
-    @map = Map.new(width, height)
+    @map = Map.new(width, height, @player)
 
 		initialize_player
 	end
@@ -64,6 +64,7 @@ class ZombieSurvival
     @game_master.tick
     @particles_tick_count -= 1
     @particles = [] if @particles_tick_count < 0
+    check_hits
     exit unless @player.alive?
 	end
 
@@ -76,7 +77,7 @@ class ZombieSurvival
 	end
 
 	def textbox_content
-		"Zombie killed: %d" % @kills
+		"Your HP: %d \t\t\t\tZombie killed: %d" % [@player.hp, @kills]
 	end
 
 	def wait?
@@ -109,6 +110,12 @@ class ZombieSurvival
 
   def object_positions
     objects.map{|o| [o.x, o.y]}
+  end
+
+  def check_hits
+    @zombies.each do |zombie|
+      @player.hit if zombie.x == @player.x && zombie.y == @player.y
+    end
   end
 
   private
