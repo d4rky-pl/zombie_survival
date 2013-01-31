@@ -4,14 +4,14 @@ require "./objects/living_object.rb"
 require "./objects/zombie.rb"
 require "./objects/player.rb"
 require "./objects/particle.rb"
+require "./game_master.rb"
 
 class ZombieSurvival
 
 	def initialize(width, height)
     @time = 0
     @zombies = []
-    # temp
-    @zombies << Zombie.new(self)
+    @game_master = GameMaster.new(self,@zombies)
 		@ticks = 0
 		@width = width
 		@height = height
@@ -59,6 +59,7 @@ class ZombieSurvival
 	def tick
     @tick_count += 1
     move_zombies
+    @game_master.tick
     @particles_tick_count -= 1
     @particles = [] if @particles_tick_count < 0
     exit unless @player.alive?

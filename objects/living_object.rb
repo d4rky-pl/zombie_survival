@@ -6,7 +6,8 @@ module LivingObject
   end
 
   def can_move?(ticks)
-    @last_tick_count + @ticks_needed < ticks
+    rand(10) == 0
+    #@last_tick_count + @ticks_needed < ticks
   end
 
   def alive?

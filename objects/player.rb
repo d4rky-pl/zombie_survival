@@ -6,7 +6,7 @@ class SmartPlayer
 
   def initialize(game)
     @game = game
-    @hp = 100
+    @hp = 6
     @direction = :up
     put_in_the_middle
   end
@@ -16,8 +16,8 @@ class SmartPlayer
   end
 
   def color
-    return Curses::COLOR_RED if hp < 50
-    return Curses::COLOR_YELLOW if hp < 10
+    return Curses::COLOR_RED if hp <= 2
+    return Curses::COLOR_YELLOW if hp <= 4
     Curses::COLOR_GREEN
   end
 
