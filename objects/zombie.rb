@@ -8,6 +8,7 @@ class Zombie
     @y = 5
     @last_tick_count = 0
     @ticks_needed = 25
+    @last_move_x = true 
   end
 
   def try_moving(player)
@@ -20,10 +21,12 @@ class Zombie
     move_x = sign_x * 1
     move_y = sign_y * 1 
 
-    if rand(5) > 2 
+    unless @last_move_x   
       @x += move_x  
+      @last_move_x = true
     else
       @y -= move_y
+      @last_move_x = false
     end
   end
 

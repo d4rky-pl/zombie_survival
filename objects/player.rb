@@ -29,22 +29,23 @@ class SmartPlayer
     self.hp = (hp + 25) % 100
   end
 
+  def hit
+    self.hp -= 10
+  end
+
   def move(direction)
-    self.direction = direction
-    new_x, new_y = x, y
+    new_x, new_y = @x, @y
     case direction
-      when :left
-        new_x -= 1
-      when :right
-        new_x += 1
-      when :up
-        new_y -= 1
-      when :down
-        new_y += 1
-      else
-        raise "Wrong direction"
+    when :up
+      new_y -= 1
+    when :down
+      new_y += 1
+    when :left
+      new_x -= 1
+    when :right
+      new_x += 1
     end
-    try_making_move(new_x,new_y)
+    try_making_move(new_x, new_y)
   end
 
   private
@@ -54,11 +55,12 @@ class SmartPlayer
     self.y = @game.height/2
   end
 
-  def try_making_move(x,y)
-    if x >= 0 && y >= 0 && x < @game.width && y < @game.height
-      new_x, new_y = @game.try_moving_player(x,y)
-      self.x = new_x
-      self.y = new_y
+  def try_making_move(new_x,new_y)
+    if new_x >= 0 && new_y >= 0 && new_x < @game.width && new_y < @game.height
+      if @game.is_allowed?(new_x, new_y)
+        self.x = new_x
+        self.y = new_y
+      end
     end
   end
 

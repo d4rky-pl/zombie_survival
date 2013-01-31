@@ -17,4 +17,8 @@ module LivingObject
   def hit
     self.hp -= 1
   end
+
+  def is_colliding?(object)
+    @x == object.x && @y == object.y
+  end
 end

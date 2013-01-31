@@ -5,6 +5,7 @@ require "./objects/zombie.rb"
 require "./objects/player.rb"
 require "./objects/particle.rb"
 require "./game_master.rb"
+require "./objects/map.rb"
 
 class ZombieSurvival
 
@@ -21,6 +22,7 @@ class ZombieSurvival
     @tick_count = 0
     @particles = []
     @particles_tick_count = 0
+    @map = Map.new(width, height)
 
 		initialize_player
 	end
@@ -66,7 +68,7 @@ class ZombieSurvival
 	end
 
 	def objects
-		[@player] + @zombies.find_all(&:alive?) + @particles
+		[@player] + @zombies.find_all(&:alive?) + @particles + @map.objects
 	end
 
 	def sleep_time
@@ -83,11 +85,10 @@ class ZombieSurvival
 
 	def exit
 		Kernel.exit
-
 	end
 
 	def exit_message
-		"Your brain was really delicious :3 You've survived %d seconds and killed %d zombies though" % [@seconds, @kills]
+		"Your brain was really delicious :3 You've killed %d zombies though" % @kills
   end
 
   def width
@@ -98,8 +99,8 @@ class ZombieSurvival
     22
   end
 
-  def try_moving_player(x,y)
-    [x,y]
+  def is_allowed?(x,y)
+    !@map.is_colliding?(x,y)
   end
 
   def try_shooting
