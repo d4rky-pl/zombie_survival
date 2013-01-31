@@ -65,7 +65,7 @@ class ZombieSurvival
 	end
 
 	def objects
-		[@player] + @zombies + @particles
+		[@player] + @zombies.find_all(&:alive?) + @particles
 	end
 
 	def sleep_time

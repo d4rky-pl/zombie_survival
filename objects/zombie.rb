@@ -2,6 +2,7 @@ class Zombie
   include LivingObject
 
   def initialize(game)
+    @hp = 1
     @game = game
     @x = 5
     @y = 5
