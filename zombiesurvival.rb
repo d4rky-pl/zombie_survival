@@ -10,6 +10,17 @@ class ZombieSurvival
 		@height = height
 		@seconds = 0
 		@kills = 0
+		@objects = {
+						:player => [],
+		        :zombies => []
+		}
+
+		initialize_player
+	end
+
+	def initialize_player
+		@player = SmartPlayer.new(self)
+		@objects[:player] << @player
 	end
 
 	def input_map
