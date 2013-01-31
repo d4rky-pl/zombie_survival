@@ -2,9 +2,12 @@ class SmartPlayer
 
   include LivingObject
 
+  attr_accessor :direction
+
   def initialize(game)
     @game = game
     @hp = 100
+    @direction = :up
     put_in_the_middle
   end
 
@@ -31,6 +34,7 @@ class SmartPlayer
   end
 
   def move(direction)
+    self.direction = direction
     new_x, new_y = x, y
     case direction
       when :left

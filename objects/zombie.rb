@@ -5,9 +5,11 @@ class Zombie
     @game = game
     @x = 5
     @y = 5
+    @last_tick_count = 0
+    @ticks_needed = 10
   end
 
-  def move
+  def try_moving
     @x += 1
   end
 
@@ -24,6 +26,7 @@ class SmartZombie < Zombie
 
   def initialize
     @hp = 10
+    @ticks_needed = 5
   end
 
   def char

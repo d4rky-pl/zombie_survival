@@ -6,6 +6,7 @@ require "./objects/player.rb"
 
 class ZombieSurvival
 	def initialize(width, height)
+    @time = 0
     @zombies = []
     # temp
     @zombies << Zombie.new(self)
@@ -15,6 +16,7 @@ class ZombieSurvival
 		@seconds = 0
 		@kills = 0
     @player = SmartPlayer.new(self)
+    @tick_count = 0
 
 		initialize_player
 	end
@@ -50,6 +52,7 @@ class ZombieSurvival
   end
 
 	def tick
+    @tick_count += 1
     move_zombies
     exit unless @player.alive?
 	end
@@ -59,7 +62,7 @@ class ZombieSurvival
 	end
 
 	def sleep_time
-		0
+		0.05
 	end
 
 	def textbox_content
@@ -72,6 +75,7 @@ class ZombieSurvival
 
 	def exit
 		Kernel.exit
+
 	end
 
 	def exit_message
@@ -93,7 +97,11 @@ class ZombieSurvival
   private
 
   def move_zombies
-    @zombies.each(&:move)
+    @zombies.each do |zombie|
+      if zombie.can_move?(@tick_count)
+        zombie.try_moving
+      end
+    end
   end
 end
 
