@@ -13,6 +13,12 @@ class ZombieSurvival
 		@seconds = 0
 		@kills = 0
     @player = SmartPlayer.new(self)
+
+		initialize_player
+	end
+
+	def initialize_player
+		@player = SmartPlayer.new(self)
 	end
 
 	def input_map
