@@ -8,6 +8,10 @@ class Particle
     @y = y
   end
 
+  def color
+    Curses::COLOR_YELLOW
+  end
+
   def char
     "*"
   end
