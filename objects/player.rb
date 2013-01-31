@@ -47,10 +47,6 @@ class SmartPlayer
     try_making_move(new_x,new_y)
   end
 
-  def hit
-    self.hp -= 10
-  end
-
   private
 
   def put_in_the_middle

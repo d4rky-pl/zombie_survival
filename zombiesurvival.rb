@@ -127,36 +127,64 @@ class ZombieSurvival
     end
   end
 
+  def zombie_at_position(x,y)
+    @zombies.find do |zombie|
+      zombie.x == x && zombie.y == y
+    end
+  end
+
+
   def particles_positions
     x, y, direction = @player.x, @player.y, @player.direction
     objects = object_positions
     positions = []
+    collision_x, collision_y = nil, nil
     case direction
       when :left
         x -= 1
         x.downto(0) do |x_pos|
-          break if object_positions.include?([x_pos,y])
+         if object_positions.include?([x_pos,y])
+           collision_x, collision_y = x_pos, y
+           break
+         end
           positions << [x_pos, y]
         end
       when :right
         x += 1
         x.upto(width) do |x_pos|
-          break if object_positions.include?([x_pos,y])
+          if object_positions.include?([x_pos,y])
+            collision_x, collision_y = x_pos, y
+            break
+          end
           positions << [x_pos, y]
         end
       when :up
         y -= 1
         y.downto(0) do |y_pos|
-          break if object_positions.include?([x,y_pos])
+          if object_positions.include?([x,y_pos])
+            collision_x, collision_y = x, y_pos
+            break
+          end
           positions << [x, y_pos]
         end
       when :down
         y += 1
         y.upto(height) do |y_pos|
-          break if object_positions.include?([x,y_pos])
+          if object_positions.include?([x,y_pos])
+            collision_x, collision_y = x, y_pos
+            break
+          end
           positions << [x, y_pos]
         end
     end
+    if (zombie = zombie_at_position(collision_x, collision_y))
+      zombie.hit
+      unless zombie.alive?
+        @kills +=1
+        @zombies.delete(zombie)
+      end
+    end
+
     positions
   end
 end

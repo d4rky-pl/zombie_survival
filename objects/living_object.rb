@@ -12,4 +12,8 @@ module LivingObject
   def alive?
     hp > 0
   end
+
+  def hit
+    self.hp -= 1
+  end
 end
